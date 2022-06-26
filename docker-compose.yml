@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+  db:
+    container_name: postgres
+    image: postgres
+    volumes:
+      - /var/lib/postgresql/data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=paralela
+
+    ports:
+      - "6432:5432"
+    
+  app:
+    container-name: api_rest
+    build: .
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/paralela
+      - DATABASE_HOST=postgres
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_NAME=paralela
+      - DATABASE_PORT=5432
