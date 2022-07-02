@@ -8,8 +8,8 @@ const login = async (req, res) => {
             method: "POST",
             uri: "https://api.sebastian.cl/UtemAuth/v1/tokens/request",
             headers: {
-                "X-API-TOKEN": "",
-                "X-API-KEY": ""
+                "X-API-TOKEN": "CPYD-L-202201",
+                "X-API-KEY": "cadc348e006e4c3bac960faebf1fad28"
             },
             body: {
                 successUrl: "",

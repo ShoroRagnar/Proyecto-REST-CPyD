@@ -27,8 +27,8 @@ db.classroom = require('./classroom.model')(sequelize, Sequelize);
 db.subject = require('./subject.model')(sequelize, Sequelize);
 
 db.attendance.belongsTo(db.student, {
-    foreignKey: 'id_student',
-    as: 'student'
+    as: 'student',
+    foreignKey: 'id_student'
 });
 
 db.attendance.belongsTo(db.classroom, {

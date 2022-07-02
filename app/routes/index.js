@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const express = require('express');
 const auth = require('./authRoutes')
-const classroom = require('./clasroomRoutes')
+const classroom = require('./classroomRoutes')
 
 
 const app = express();
