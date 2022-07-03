@@ -6,7 +6,6 @@ const Subject = db.subject;
 const Classroom = db.classroom;
 const Student = db.student;
 
-
 const getIn = async (req, res) => {
     let id = '';
     try{
@@ -14,7 +13,7 @@ const getIn = async (req, res) => {
             
             let classroom = await getClassroom(req.body.classroom);
             let subject = await getSubject(req.body.subject);
-            let student = await getStudent(req.headers.email);
+            let student = await getStudent(req.headers.student);
             if(classroom == null){
                 logger.error(`[POST] /v1/classroom/getin [404] Aula no encontrada`);
                 res.status(404).json({

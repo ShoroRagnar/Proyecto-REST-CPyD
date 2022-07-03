@@ -17,7 +17,8 @@
     "pg": "^8.7.3",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
-    "sequelize": "^6.21.0",
+    "sequelize": "^6.20.0",
+    "swagger-ui-express": "^4.4.0",
     "winston": "^3.7.2"
   }
 }

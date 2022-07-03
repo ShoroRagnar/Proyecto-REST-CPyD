@@ -1,0 +1,47 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Proyecto REST CPD",
+        "description": "API rest de control de asistencia",
+        "version": "1.0.0",
+        "contact": {
+            "name": "Luis Correa Céspedes, ",
+            "email" : "",
+            "url": "utem.cl"
+        }
+    },
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/v1/authentication/login": {
+        "parameters": [
+          {
+            "name": "X-API-TOKEN",
+            "required": true,
+            "in": "header",
+            "type": "string",
+            "description": "X-API-TOKEN"
+          }
+        ],
+        "get": {
+          "operationId": "routeWithId",
+          "description": "autenticación de usuario",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "examples": {
+                "application/json": "{ foo: 1 }"
+              }
+            }
+          }
+        }
+      }
+    }
+  }

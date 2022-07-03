@@ -2,6 +2,8 @@ const express = require('express');
 const os = require('os');
 const cors = require('cors');
 const logger = require('./app/utils/logger');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./docs/swaggerInfo.json');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -9,6 +11,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');

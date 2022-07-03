@@ -1,8 +1,8 @@
 module.exports = {
     HOST: process.env['DATABASE_HOST'] || "localhost",
     USER: process.env['DATABASE_USER'] || "postgres",
-    PASSWORD: process.env['DATABASE_PASSWORD'] || "postgres",
-    DB: process.env['DATABASE_NAME'] || "paralela",
+    PASSWORD: process.env['DATABASE_PASSWORD'] || "12345",
+    DB: process.env['DATABASE_NAME'] || "proyecto-rest",
     dialect: "postgres",
     pool: {
         max: 5,
