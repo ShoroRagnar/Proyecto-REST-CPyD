@@ -6,6 +6,13 @@ const Subject = db.subject;
 const Classroom = db.classroom;
 const Student = db.student;
 
+/**
+ * COMENTAR CON ESTA ESTRUCTURA
+ * @param {*} req 
+ * @param {*} res 
+ * @return res
+ */
+
 const getIn = async (req, res) => {
     let id = '';
     try{

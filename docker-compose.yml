@@ -16,7 +16,7 @@ services:
       - "6432:5432"
     
   app:
-    container-name: api_rest
+    container_name: api_rest
     build: .
     ports:
       - 3000:3000
