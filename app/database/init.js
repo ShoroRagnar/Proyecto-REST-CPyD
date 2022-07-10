@@ -7,6 +7,7 @@ const Student = db.student;
 const Classroom = db.classroom;
 const Subject = db.subject;
 const Attendance = db.attendance;
+const Token = db.token;
 
 
 
@@ -16,6 +17,7 @@ const init = async (req, res) => {
         await Classroom.sync({force: true});
         await Subject.sync({force: true});
         await Attendance.sync({force: true});
+        await Token.sync({force: true});
 
         logger.info('Base de datos inicializada');
 

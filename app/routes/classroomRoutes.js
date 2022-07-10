@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const router = Router();
+const auth = require('../middleware/auth');
 
 const {
     getIn,
@@ -8,8 +9,8 @@ const {
 } = require('../controllers/classRoomController');
 
 
-router.post('/getin', getIn);
-router.post('/getout', getOut);
-router.get('/attendances', attendances);
+router.post('/getin', auth, getIn);
+router.post('/getout', auth, getOut);
+router.get('/attendances', auth, attendances);
 
 module.exports = router;
