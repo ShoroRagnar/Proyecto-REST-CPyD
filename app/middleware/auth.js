@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/config');
 const logger = require('../utils/logger');
 const db = require('../models');
-const { student } = require('../models');
 const Token = db.token;
 const Student = db.student;
 
@@ -17,7 +16,7 @@ module.exports = async (req, res, next) => {
             });
         }
         const decoded = jwt.decode(token);
-        if(verifyToken(token, decoded.email)) {
+        if(await verifyToken(token, decoded.email)) {
             next();
         } else {
             logger.info('Acceso denegado');
@@ -29,30 +28,35 @@ module.exports = async (req, res, next) => {
     }catch(error){
         logger.info('Acceso denegado');
         return res.status(400).json({
-            message: "Acceso denegado" + err.stack
+            message: "Acceso denegado" + error.stack
         });
     }
 };
 
 const verifyToken = async (token, email) => {
     let check = '';
-    console.log(email);
     let getStudent = '';
     await Student.findOne({
         where: {
             email: email
         }
     }).then(data => {
-        getStudent = data.id
+        if(data){
+            getStudent = data.id
+        }
     })
     await Token.findOne({
         where: {
             token: token
         }
-    }).then(data => {
-        if (getStudent == data.id) {
-            check = true;
-        } else {
+    }).then(data => {    
+        if(data){
+            if (getStudent == data.studentId) {
+                check = true;
+            } else {
+                check = false;
+            }
+        }else{
             check = false;
         }
     })

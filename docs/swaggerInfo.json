@@ -1,47 +1,242 @@
 {
-    "openapi": "3.0.3",
-    "info": {
-        "title": "Proyecto REST CPD",
-        "description": "API rest de control de asistencia",
-        "version": "1.0.0",
-        "contact": {
-            "name": "Grupo I",
-            "email" : "",
-            "url": "utem.cl"
-        }
+
+  "openapi": "3.0.3",
+  "info": {
+      "title": "Proyecto REST CPD",
+      "description": "API rest de control de asistencia",
+      "version": "1.0.0",
+      "contact": {
+          "name": "Grupo I",
+          "email" : "",
+          "url": "utem.cl"
+      }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "authentication",
+      "description": "Autenticación de usuarios"
     },
-    "consumes": [
-      "application/json"
-    ],
-    "produces": [
-      "application/json"
-    ],
-    "paths": {
-      "/v1/authentication/login": {
-        "parameters": [
-          {
-            "name": "X-API-TOKEN",
-            "required": true,
-            "in": "header",
-            "type": "string",
-            "description": "X-API-TOKEN"
-          }
+    {
+      "name": "classroom",
+      "description": "Control de asistencia"
+    }
+  ],
+
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    
+    "/v1/authentication/login": {
+      "parameters": [
+        {
+          "name": "X-API-TOKEN",
+          "required": true,
+          "in": "header",
+          "type": "string",
+          "description": "X-API-TOKEN"
+        }
+      ],
+      "get": {
+        "tags": [
+          "authentication"
         ],
-        "get": {
-          "operationId": "routeWithId",
-          "description": "autenticación de usuario",
-          "produces": [
-            "application/json"
-          ],
-          "responses": {
-            "200": {
-              "description": "OK",
-              "examples": {
-                "application/json": "{ foo: 1 }"
-              }
+        "operationId": "routeWithId",
+        "description": "Autenticación de usuario",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": "{ foo: 1 }"
+            }
+          }
+        }
+      }
+    },
+
+    "/v1/authentication/result": {
+      "parameters": [
+        {
+          "name": "token",
+          "required": true,
+          "in": "query",
+          "type": "string",
+          "description": "token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "authentication"
+        ],
+        "operationId": "routeWithId",
+        "description": "Página de resultado de la autenticación",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": "{ foo: 1 }"
+            }
+          }
+        }
+      }
+    },
+
+    "/v1/authentication/getjwt": {
+      "parameters": [
+        {
+          "name": "token",
+          "required": true,
+          "in": "body",
+          "type": "string",
+          "description": "token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "authentication"
+        ],
+        "operationId": "routeWithId",
+        "description": "Obtiene el JWT del usuario",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": "{ foo: 1 }"
+            }
+          }
+        }
+      }
+    },
+    "/v1/authentication/savetoken": {
+      "parameters": [
+        {
+          "name": "jwt",
+          "required": true,
+          "in": "body",
+          "type": "string",
+          "description": "jwt"
+        }
+      ],
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "operationId": "routeWithId",
+        "description": "Guarda el jwt en la base de datos asociado al usuario",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": "{ foo: 1 }"
+            }
+          }
+        }
+      }
+    },
+    "/v1/classroom/getin": {
+      "parameters": [
+        {
+          "name": "jwt",
+          "required": true,
+          "in": "body",
+          "type": "string",
+          "description": "jwt"
+        }
+      ],
+      "post": {
+        "tags": [
+          "classroom"
+        ],
+        "operationId": "routeWithId",
+        "description": "Guarda el jwt en la base de datos asociado al usuario",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": "{ foo: 1 }"
+            }
+          }
+        }
+      }
+    },
+    "/v1/classroom/getout": {
+      "parameters": [
+        {
+          "name": "jwt",
+          "required": true,
+          "in": "body",
+          "type": "string",
+          "description": "jwt"
+        }
+      ],
+      "post": {
+        "tags": [
+          "classroom"
+        ],
+        "operationId": "routeWithId",
+        "description": "Guarda el jwt en la base de datos asociado al usuario",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": "{ foo: 1 }"
+            }
+          }
+        }
+      }
+    },
+    "/v1/classroom/attendances": {
+      "parameters": [
+        {
+          "name": "jwt",
+          "required": true,
+          "in": "body",
+          "type": "string",
+          "description": "jwt"
+        }
+      ],
+      "get": {
+        "tags": [
+          "classroom"
+        ],
+        "operationId": "routeWithId",
+        "description": "Guarda el jwt en la base de datos asociado al usuario",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": "{ foo: 1 }"
             }
           }
         }
       }
     }
   }
+}

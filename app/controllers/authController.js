@@ -3,12 +3,23 @@ const request = require('request-promise');
 const logger = require('../utils/logger');
 const db = require('../models');
 const jwt = require('jsonwebtoken');
+const { student } = require('../models');
 
 const Attendance = db.attendance;
 const Subject = db.subject;
 const Classroom = db.classroom;
 const Student = db.student;
+const Token = db.token;
 
+/**
+ * 
+ * Realiza la autenticación a través de https://api.sebastian.cl/UtemAuth
+ * 
+ * @param {*} req Request
+ * @param {*} res Response
+ * 
+ * @return Response al cliente
+ */
 const login = async (req, res) => {
     try{
         let options = {
@@ -49,8 +60,18 @@ const login = async (req, res) => {
     }
 }
 
+
+
+
+
+/**
+ * Redirecciona a la 
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
 const result = async (req, res) => {
-    let header = req.headers['jwt'];
+    let header = req.params.jwt;
     let decode = jwt.decode(header);
     let id = '';
     
@@ -111,7 +132,98 @@ const result = async (req, res) => {
 }
 
 
+const getJWT = async (req, res) => {
+    try{
+        let options = {
+            method: "GET",
+            uri: `https://api.sebastian.cl/UtemAuth/v1/tokens/${req.body.token}/jwt`,
+            headers: {
+                "Content-Type": "application/json",
+                "X-API-TOKEN": "CPYD-L-202201",
+                "X-API-KEY": "cadc348e006e4c3bac960faebf1fad28"
+            },
+            json: true
+        }
+        await request(options).then(function(body){
+            logger.info(`[POST] /v1/authentication/getjwt [200] token obtenido`);
+            res.status(200).json({
+                jwt: body.jwt,
+                created: body.created
+            });
+        }).catch(error =>{
+            logger.error(`[POST] /v1/authentication/getjwt [500] Error al obtener token \n [Stacktrace] \n ${error.stack}`);
+            res.status(500).json({
+                ok: false,
+                message: "Error desconocido",
+                created: moment()
+            });
+        })
+
+    }catch(error){
+        logger.error(`[POST] /v1/authentication/getjwt [500] Error al obtener token \n [Stacktrace] \n ${error.stack}`);
+    }
+}
+
+const saveToken = async (req, res) => {
+    try{
+        let decode = jwt.decode(req.body.jwt);
+        let studentId = '';
+        await Student.findOne({
+            where: {
+                email: decode.email
+            }
+        }).then(data => {
+            if(data){
+                studentId = data.id;
+            }
+        })
+        .catch(error => {
+            logger.error(`[POST] /v1/authentication/saveToken [500] Error al guardar el token \n [Stacktrace] \n ${error.stack}`);
+            res.status(500).json({
+                ok: false,
+                message: "Error desconocido",
+                created: moment()
+            });
+
+        });
+
+
+
+        await Token.create({
+            token: req.body.jwt,
+            studentId: studentId,
+            createdAt: moment(),
+            updatedAt: moment()
+        })
+        .then(() => {
+            logger.info(`[POST] /v1/authentication/saveToken [201] Token guardado`)
+            res.status(201).json({
+                ok: true
+            });
+        })
+        .catch(error => {
+            logger.error(`[POST] /v1/authentication/saveToken [500] Error al guardar el token \n [Stacktrace] \n ${error.stack}`);
+            res.status(500).json({
+                ok: false,
+                message: "Error desconocido",
+                created: moment()
+            });
+            
+        });
+
+    }catch(error){
+        logger.error(`[POST] /v1/authentication/saveToken [500] Error al guardar el token \n [Stacktrace] \n ${error.stack}`);
+        res.status(500).json({
+            ok: false,
+            message: "Error desconocido",
+            created: moment()
+        });
+    }
+}
+
 module.exports = {
     login,
-    result
+    result,
+    getJWT,
+    saveToken,
 }

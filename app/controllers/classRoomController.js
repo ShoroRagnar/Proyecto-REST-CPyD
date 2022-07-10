@@ -19,9 +19,9 @@ const getIn = async (req, res) => {
     let decode = jwt.decode(req.headers['jwt']);
     try{
         if(req.body.classroom != null && req.body.subject != null && req.body.entrance != null){
-            let classroom = getClassroom(req.body.classroom);
-            let subject = getSubject(req.body.subject);
-            let student = getStudent(decode.email);
+            let classroom = await getClassroom(req.body.classroom);
+            let subject = await getSubject(req.body.subject);
+            let student = await getStudent(decode.email);
             if(classroom == null){
                 logger.error(`[POST] /v1/classroom/getin [404] Aula no encontrada`);
                 res.status(404).json({
@@ -56,15 +56,12 @@ const getIn = async (req, res) => {
                     });
                 })
             }
-            console.log(classroom);
-            console.log(subject);
-            console.log(student);
             await Attendance.create({
                 id_classroom: classroom,
                 id_subject: subject,
                 id_student: student,
-                entrance: moment(),
-                leaving: moment()
+                entrance: req.body.entrance,
+                leaving: req.body.entrance
             })
             .then(() => {
                 logger.info(`[POST] /v1/classroom/getin [200] Entrada registrada`);
@@ -102,13 +99,16 @@ const getIn = async (req, res) => {
 
 const getOut = async (req, res) => {
     try{
+        let decode = jwt.decode(req.headers['jwt']);
+        console.log("entrance", req.body.entrance);
+        console.log("leaving", req.body.leaving);
         if(req.body.classroom != null && req.body.subject !=null && req.body.entrance != null && req.body.leaving != null){
             let classroom = await getClassroom(req.body.classroom);
             let subject = await getSubject(req.body.subject);
             let student = await getStudent(decode.email);
 
             if(classroom == null){
-                logger.error(`[POST] /v1/classroom/getin [404] Aula no encontrada`);
+                logger.error(`[POST] /v1/classroom/getout [404] Aula no encontrada`);
                 res.status(404).json({
                     ok: false,
                     message: "Aula no encontrada",
@@ -116,7 +116,7 @@ const getOut = async (req, res) => {
                 });
             }
             if(subject == null){
-                logger.error(`[POST] /v1/classroom/getin [404] Asignatura no encontrada`);
+                logger.error(`[POST] /v1/classroom/getout [404] Asignatura no encontrada`);
                 res.status(404).json({
                     ok: false,
                     message: "Asignatura no encontrada",
@@ -125,7 +125,7 @@ const getOut = async (req, res) => {
 
             }
             if(student == null){
-                logger.error(`[POST] /v1/classroom/getin [404] Estudiante no encontrado`);
+                logger.error(`[POST] /v1/classroom/getout [404] Estudiante no encontrado`);
                 res.status(404).json({
                     ok: false,
                     message: "Estudiante no encontrado",
@@ -136,14 +136,14 @@ const getOut = async (req, res) => {
                 leaving: req.body.leaving
             },{
                 where: {
-                    classroomId: classroom.id,
-                    subjectId: subject.id,
-                    studentId: student.id,
+                    id_classroom: classroom,
+                    id_subject: subject,
+                    id_student: student,
                     entrance: req.body.entrance
                 }
             })
             .then(attendance => {
-                logger.info(`[POST] /v1/classroom/getin [200] Salida registrada`);
+                logger.info(`[POST] /v1/classroom/getout [200] Salida registrada`);
                 res.status(200).json({
                     classroom: req.body.classroom,
                     subject: req.body.subject,
@@ -169,9 +169,6 @@ const getOut = async (req, res) => {
                 created: moment()
             });
         }
-        res.status(200).json({
-            ok:true
-        });
     }catch(error){
         res.status(500).json({
             ok: false,
@@ -258,16 +255,15 @@ const attendances = async (req, res) => {
 }
 
 
-const getClassroom = (classroom) => {
+const getClassroom = async (classroom) => {
     let idClassroom = '';
-    Classroom.findOne({
+    await Classroom.findOne({
         where: {
             name: classroom
         },
         attributes: ['id']
     })
     .then(data => {
-        console.log(data.id);
         if(!data){
             logger.error(`Aula no encontrada`);
         }
@@ -279,9 +275,9 @@ const getClassroom = (classroom) => {
     return idClassroom;
 }
 
-const getSubject = (subject) => {
+const getSubject = async (subject) => {
     let idSubject = '';
-    Subject.findOne({
+    await Subject.findOne({
         where: {
             name: subject
         },
@@ -299,9 +295,9 @@ const getSubject = (subject) => {
     return idSubject;
 }
 
-const getStudent = (email) => {
+const getStudent = async (email) => {
     let idStudent = '';
-    Student.findOne({
+    await Student.findOne({
         where: {
             email:email
         },
