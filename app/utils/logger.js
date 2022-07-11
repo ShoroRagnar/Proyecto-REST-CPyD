@@ -1,5 +1,11 @@
 const { createLogger, format, transports } = require('winston');
 
+
+/**
+ * 
+ * Creación de Logs del sistema
+ *
+ */
 module.exports = createLogger({
     format: format.combine(
         format.simple(),

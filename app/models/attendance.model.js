@@ -1,3 +1,8 @@
+/**
+ * 
+ * Modelo de registros históricos
+ *
+ */
 module.exports = (sequelize, DataTypes) => {
     const Attendance = sequelize.define('attendance', {
         id: {

@@ -10,7 +10,15 @@ const Attendance = db.attendance;
 const Token = db.token;
 
 
-
+/**
+ * 
+ * Inicialización de la base de datos
+ * 
+ * @param {*} req Request
+ * @param {*} res Response
+ * 
+ * @return Response al cliente
+ */
 const init = async (req, res) => {
     try{
         await Student.sync({force: true});

@@ -7,6 +7,12 @@ const Classroom = db.classroom;
 const Subject = db.subject;
 const Attendance = db.attendance;
 
+
+/**
+ * 
+ * Llenado random de datos de prueba
+ * 
+ */
 const seedStudent = async () => {
     try {
         for(let row=0;row<10;row++) {

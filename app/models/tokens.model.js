@@ -1,3 +1,8 @@
+/**
+ * 
+ * Modelo de tokens
+ *
+ */
 module.exports = (sequelize, DataTypes) => {
     const Token = sequelize.define('tokens', {
         id: {

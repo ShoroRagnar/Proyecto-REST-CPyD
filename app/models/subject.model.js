@@ -1,3 +1,8 @@
+/**
+ * 
+ * Modelo de asignaturas
+ *
+ */
 module.exports = (sequelize, DataTypes) => {
     const Subject = sequelize.define('subject', {
         id: {

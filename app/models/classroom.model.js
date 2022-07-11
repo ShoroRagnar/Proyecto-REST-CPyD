@@ -1,3 +1,8 @@
+/**
+ * 
+ * Modelo de salas
+ *
+ */
 module.exports = (sequelize, DataTypes) => {
     const Classroom = sequelize.define('classroom', {
         id: {

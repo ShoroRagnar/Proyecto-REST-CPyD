@@ -19,7 +19,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 
-//inyección de modelos
+//Inyección de modelos
 
 db.attendance = require('./attendance.model')(sequelize, Sequelize);
 db.student = require('./student.model')(sequelize, Sequelize);

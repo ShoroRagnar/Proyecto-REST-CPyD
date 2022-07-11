@@ -65,10 +65,13 @@ const login = async (req, res) => {
 
 
 /**
- * Redirecciona a la 
  * 
- * @param {*} req 
- * @param {*} res 
+ * Realiza la obtención del estudiante
+ * 
+ * @param {*} req Request
+ * @param {*} res Response
+ * 
+ * @return Response al cliente
  */
 const result = async (req, res) => {
     let header = req.params.jwt;
@@ -131,7 +134,15 @@ const result = async (req, res) => {
     }
 }
 
-
+/**
+ * 
+ * Realiza la obtención del token del estudiante
+ * 
+ * @param {*} req Request
+ * @param {*} res Response
+ * 
+ * @return Response al cliente
+ */
 const getJWT = async (req, res) => {
     try{
         let options = {
@@ -164,6 +175,15 @@ const getJWT = async (req, res) => {
     }
 }
 
+/**
+ * 
+ * Realiza el guardado del token del estudiante
+ * 
+ * @param {*} req Request
+ * @param {*} res Response
+ * 
+ * @return Response al cliente
+ */
 const saveToken = async (req, res) => {
     try{
         let decode = jwt.decode(req.body.jwt);
@@ -186,9 +206,6 @@ const saveToken = async (req, res) => {
             });
 
         });
-
-
-
         await Token.create({
             token: req.body.jwt,
             studentId: studentId,
@@ -210,7 +227,6 @@ const saveToken = async (req, res) => {
             });
             
         });
-
     }catch(error){
         logger.error(`[POST] /v1/authentication/saveToken [500] Error al guardar el token \n [Stacktrace] \n ${error.stack}`);
         res.status(500).json({

@@ -1,3 +1,8 @@
+/**
+ * 
+ * Conexión a la base de datos
+ * 
+ */
 module.exports = {
     HOST: process.env['DATABASE_HOST'] || "localhost",
     USER: process.env['DATABASE_USER'] || "postgres",

@@ -8,12 +8,14 @@ const Student = db.student;
 const jwt = require('jsonwebtoken');
 
 /**
- * COMENTAR CON ESTA ESTRUCTURA
- * @param {*} req 
- * @param {*} res 
- * @return res
+ * 
+ * Registra la entrada del estudiante por el QR
+ * 
+ * @param {*} req Request
+ * @param {*} res Response
+ * 
+ * @return Response al cliente
  */
-
 const getIn = async (req, res) => {
     let id = '';
     let decode = jwt.decode(req.headers['jwt']);
@@ -97,6 +99,15 @@ const getIn = async (req, res) => {
     }
 }
 
+/**
+ * 
+ * Registra la salida del estudiante por el QR
+ * 
+ * @param {*} req Request
+ * @param {*} res Response
+ * 
+ * @return Response al cliente
+ */
 const getOut = async (req, res) => {
     try{
         let decode = jwt.decode(req.headers['jwt']);
@@ -160,7 +171,6 @@ const getOut = async (req, res) => {
                     created: moment()
                 });
             })
-
         } else {
             logger.error(`[POST] /v1/classroom/getout [400] Faltan datos`);
             res.status(400).json({
@@ -178,6 +188,15 @@ const getOut = async (req, res) => {
     }
 }
 
+/**
+ * 
+ * Realiza la obtención de los registros históricos del estudiante
+ * 
+ * @param {*} req Request
+ * @param {*} res Response
+ * 
+ * @return Response al cliente
+ */
 const attendances = async (req, res) => {
     let decode = jwt.decode(req.headers['jwt']);
     let getStudent = await Student.findOne({
@@ -254,7 +273,14 @@ const attendances = async (req, res) => {
     }
 }
 
-
+/**
+ * 
+ * Obtención de la sala de clases
+ * 
+ * @param {*} Classroom Classroom del estudiante
+ * 
+ * @return Response al cliente
+ */
 const getClassroom = async (classroom) => {
     let idClassroom = '';
     await Classroom.findOne({
@@ -275,6 +301,14 @@ const getClassroom = async (classroom) => {
     return idClassroom;
 }
 
+/**
+ * 
+ * Obtención de la asignatura
+ * 
+ * @param {*} subject Asignatura asignada al estudiante
+ * 
+ * @return Response al cliente
+ */
 const getSubject = async (subject) => {
     let idSubject = '';
     await Subject.findOne({
@@ -295,6 +329,14 @@ const getSubject = async (subject) => {
     return idSubject;
 }
 
+/**
+ * 
+ * Obtención del estudiante
+ * 
+ * @param {*} email Email asignado al estudiante
+ * 
+ * @return Response al cliente
+ */
 const getStudent = async (email) => {
     let idStudent = '';
     await Student.findOne({

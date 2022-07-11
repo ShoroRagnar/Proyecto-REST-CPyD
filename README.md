@@ -77,7 +77,7 @@ Usamos [SemVer](http://semver.org/) para el versionado. Para todas las versiones
 _Proyecto realizado por:_
 
 * **Alexis Abarca Arias** - *Email* - alexis.abarcaa@utem.cl
-* **Luis Correa Cespedes** - *Email* - Luis.correac@utem.cl
+* **Luis Correa Cespedes** - *Email* - luis.correac@utem.cl
 
 
 

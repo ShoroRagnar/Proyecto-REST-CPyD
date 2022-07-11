@@ -1,3 +1,8 @@
+/**
+ * 
+ * Modelo de estudiantes
+ *
+ */
 module.exports = (sequelize, DataTypes) => {
     const Student = sequelize.define('student', {
         id: {

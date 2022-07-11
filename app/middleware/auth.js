@@ -5,6 +5,17 @@ const db = require('../models');
 const Token = db.token;
 const Student = db.student;
 
+
+/**
+ * 
+ * Acceso a la aplicación
+ * 
+ * @param {*} req Request
+ * @param {*} res Response
+ * @param {*} next Next
+ * 
+ * @return Response al cliente
+ */
 module.exports = async (req, res, next) => {
     try{
         let token = req.headers['jwt'];
@@ -33,6 +44,15 @@ module.exports = async (req, res, next) => {
     }
 };
 
+/**
+ * 
+ * Acceso a la aplicación
+ * 
+ * @param {*} token Token de acceso
+ * @param {*} email Email del estudiante
+ * 
+ * @return Response al cliente
+ */
 const verifyToken = async (token, email) => {
     let check = '';
     let getStudent = '';
