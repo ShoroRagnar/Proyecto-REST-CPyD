@@ -1,92 +1,70 @@
-# Título del Proyecto
+# Proyecto REST
 
-Proyecto UTEM REST Computacion Paralela y Distribuida
+Proyecto API-REST para la asignatura Computacion Paralela y Distribuida de la Universidad Tecnológica Metropolitana.
 
 ## Comenzando 🚀
 
-_Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas._
-
-Mira **Deployment** para conocer como desplegar el proyecto.
-
-
 ### Pre-requisitos 📋
 
-_Que cosas necesitas para instalar el software y como instalarlas_
+Para poder usar esta API-REST en tu máquina local, debes tener las siguientes apicaciones instaladas:
 
-```
-Da un ejemplo
-```
+* NodeJS
+* PostgreSQL
+* Docker (en caso de que quieras dockerizar la aplicación)
 
 ### Instalación 🔧
 
-_Una serie de ejemplos paso a paso que te dice lo que debes ejecutar para tener un entorno de desarrollo ejecutandose_
+Descarga este repositorio en tu máquina de la forma que estimes conveniente.
 
-_Dí cómo será ese paso_
-
-```
-Da un ejemplo
-```
-
-_Y repite_
+Para poder hacer uso de la API-REST, debes tener instaladas todas las dependencias de NodeJS
+del proyecto. Para ello, en el directorio principal del proyecto, mediante la consola de 
+comandos del sistema, ejecuta el siguiente comando:
 
 ```
-hasta finalizar
+npm install
 ```
 
-_Finaliza con un ejemplo de cómo obtener datos del sistema o como usarlos para una pequeña demo_
+### Ejecución 🔩
 
-## Ejecutando las pruebas ⚙️
-
-_Explica como ejecutar las pruebas automatizadas para este sistema_
-
-### Analice las pruebas end-to-end 🔩
-
-_Explica que verifican estas pruebas y por qué_
+Para correr la aplicación en el servidor, ejecuta el siguiente comando: 
 
 ```
-Da un ejemplo
+npm start
 ```
 
-### Y las pruebas de estilo de codificación ⌨️
+Con ello, el proyecto estará desplegado, y podrás acceder mediante la ruta de localhost a un Swagger adjunto
+documentado de la API-REST.
 
-_Explica que verifican estas pruebas y por qué_
+### Dockerizar la API ⌨️
+
+Si quieres dockerizar la API-REST debes tener instalado:
+
+* Docker
+* Docker Compose
+* Docker Container
+
+Y luego ejecutar en el directorio principal del proyecto, en la consola de comandos:
 
 ```
-Da un ejemplo
+docker-compose up
 ```
 
-## Despliegue 📦
+## API construida con 🛠️
 
-_Agrega notas adicionales sobre como hacer deploy_
-
-## Construido con 🛠️
-
-_Menciona las herramientas que utilizaste para crear tu proyecto_
-
-* INSERTAR AQUI LO QUE VAMOS A USAR
-* INSERTAR AQUI LO QUE VAMOS A USAR
-* INSERTAR AQUI LO QUE VAMOS A USAR
-
-
-## Versionado 📌
-
-Usamos [SemVer](http://semver.org/) para el versionado. Para todas las versiones disponibles, mira los [tags en este repositorio](https://github.com/tu/proyecto/tags).
+* NodeJS
+* Visual Studio Code
+* Mucho café ☕☕☕
 
 ## Autores ✒️
 
-_Proyecto realizado por:_
 
 * **Alexis Abarca Arias** - *Email* - alexis.abarcaa@utem.cl
-* **Luis Correa Cespedes** - *Email* - luis.correac@utem.cl
-
-
+* **Luis Correa Céspedes** - *Email* - luis.correac@utem.cl
 
 ## Expresiones de Gratitud 🎁
 
 * Comenta a otros sobre este proyecto 📢
-* Invita una cerveza 🍺 o un café ☕ a alguien del equipo. 
+* Invita un café ☕ a alguien del equipo. 
 * Da las gracias públicamente 🤓.
-
-
 
 ---
