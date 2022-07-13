@@ -1,241 +1,417 @@
 {
-  "openapi": "3.0.3",
-  "info": {
-      "title": "Proyecto REST CPD",
-      "description": "API rest de control de asistencia",
-      "version": "1.0.0",
-      "contact": {
-          "name": "Grupo I",
-          "email" : "",
-          "url": "utem.cl"
-      }
-  },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
-  "tags": [
-    {
-      "name": "authentication",
-      "description": "Autenticación de usuarios"
+    "openapi": "3.0.3",
+    "info": {
+        "description": "Proyecto API-REST Computación Paralela y Distribuida",
+        "version": "1.0.0",
+        "title": "API-REST CPD"
     },
-    {
-      "name": "classroom",
-      "description": "Control de asistencia"
+    "tags": [
+        {
+            "name": "authentication-rest",
+            "description": "Resultado de la autenticación del estudiante"
+        },
+        {
+            "name": "classroom-rest",
+            "description": "Registro de entrada y salida de estudiantes"
+        }
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "paths": {
+        "/v1/authentication/login": {
+            "get": {
+                "tags": [
+                    "authentication-rest"
+                ],
+                "summary": "Mecanismo para hacer login con cuenta de correo UTEM",
+                "description": "Autenticación del estudiante con cuenta UTEM",
+                "operationId": "login",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [ 
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Autenticacion"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/authentication/result": {
+            "get": {
+                "tags": [
+                    "authentication-rest"
+                ],
+                "summary": "Resultado de autenticación con JWT",
+                "description": "Resultado de la autenticación del estudiante con cuenta UTEM",
+                "operationId": "result",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "jwt",
+                        "in": "query",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Resultado"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/classroom/getin": {
+            "post": {
+                "tags": [
+                    "classroom-rest"
+                ],
+                "summary": "Ingreso del estudiante a la institución",
+                "description": "Información de entrada de un estudiante a una sala de clases",
+                "operationId": "getIn",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "jwt",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Entrada"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Entrada"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/classroom/getout": {
+            "post": {
+                "tags": [
+                    "classroom-rest"
+                ],
+                "summary": "Egreso del estudiante a la institución",
+                "description": "Información de salida de un estudiante a una sala de clases",
+                "operationId": "getOut",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "jwt",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Salida"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Salida"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/classroom/attendances": {
+            "get": {
+                "tags": [
+                    "classroom-rest"
+                ],
+                "summary": "Registro de entradas y salidas del estudiante a la institución",
+                "description": "Registro histórico de asistencia de un estudiante",
+                "operationId": "attendances",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "jwt",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Registros"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+
+    "definitions": {
+        "Autenticacion": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "description": "Token autenticación",
+                    "type": "string",
+                    "example": "string"
+                },
+                "sign": {
+                    "description": "Firma de autenticación",
+                    "type": "string",
+                    "example": "string"
+                },
+                "redirectUrl": {
+                    "description": "URL de redireccionamiento",
+                    "type": "string",
+                    "format": "url",
+                    "example": "string"
+                },
+                "created": {
+                    "description": "Fecha autenticación",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2022-07-13T21:19:58.212Z"
+                }
+            },
+            "xml": {
+                "name": "Autenticacion"
+            }
+        },
+        "Resultado": {
+            "type": "object",
+            "properties": {
+                "classroom": {
+                    "description": "Código Sala",
+                    "type": "string",
+                    "example": "M2-201"
+                },
+                "subject": {
+                    "description": "Código Asignatura",
+                    "type": "string",
+                    "example": "INFB8090"
+                },
+                "entrance": {
+                    "description": "Fecha entrada Sala",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2022-07-13T21:19:58.212Z"
+                },
+                "leaving": {
+                    "description": "Fecha salida Sala",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2022-07-13T21:22:50.212Z"
+                },
+                "email": {
+                    "description": "Email estudiante",
+                    "type": "string",
+                    "format": "email",
+                    "example": "nombre@dominio.cl"
+                }
+            },
+            "required": [
+                "classroom",
+                "subject",
+                "entrance",
+                "leaving",
+                "email"
+            ],
+            "xml": {
+                "name": "Registros"
+            }
+        },
+        "Entrada": {
+            "type": "object",
+            "properties": {
+                "classroom": {
+                    "description": "Código Sala",
+                    "type": "string",
+                    "example": "M2-201"
+                },
+                "subject": {
+                    "description": "Código Asignatura",
+                    "type": "string",
+                    "example": "INFB8090"
+                },
+                "entrance": {
+                    "description": "Fecha entrada Sala",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2022-07-13T21:19:58.212Z"
+                }
+            },
+            "required": [
+                "classroom",
+                "subject",
+                "entrance"
+            ],
+            "xml": {
+                "name": "Entrada"
+            }
+        },
+        "Salida": {
+            "type": "object",
+            "properties": {
+                "classroom": {
+                    "description": "Código Sala",
+                    "type": "string",
+                    "example": "M2-201"
+                },
+                "subject": {
+                    "description": "Código Asignatura",
+                    "type": "string",
+                    "example": "INFB8090"
+                },
+                "entrance": {
+                    "description": "Fecha entrada Sala",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2022-07-13T21:19:58.212Z"
+                },
+                "leaving": {
+                    "description": "Fecha salida Sala",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2022-07-13T21:22:50.212Z"
+                }
+            },
+            "required": [
+                "classroom",
+                "subject",
+                "entrance",
+                "leaving"
+            ],
+            "xml": {
+                "name": "Salida"
+            }
+        },
+        "Registros": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "classroom": {
+                        "description": "Código Sala",
+                        "type": "string",
+                        "example": "M2-201"
+                    },
+                    "subject": {
+                        "description": "Código Asignatura",
+                        "type": "string",
+                        "example": "INFB8090"
+                    },
+                    "entrance": {
+                        "description": "Fecha entrada Sala",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-07-13T21:19:58.212Z"
+                    },
+                    "leaving": {
+                        "description": "Fecha salida Sala",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-07-13T21:22:50.212Z"
+                    },
+                    "email": {
+                        "description": "Email estudiante",
+                        "type": "string",
+                        "format": "email",
+                        "example": "nombre@dominio.cl"
+                    }
+                },
+                "required": [
+                    "classroom",
+                    "subject",
+                    "entrance",
+                    "leaving",
+                    "email"
+                ]
+            },
+            "xml": {
+                "name": "Registros"
+            }
+        }
+    },
+
+
+    "externalDocs": {
+        "description": "Repositorio API",
+        "url": "https://github.com/ShoroRagnar/Proyecto-REST-CPyD"
     }
-  ],
-
-  "schemes": [
-    "http"
-  ],
-  "paths": {
-    
-    "/v1/authentication/login": {
-      "parameters": [
-        {
-          "name": "X-API-TOKEN",
-          "required": true,
-          "in": "header",
-          "type": "string",
-          "description": "X-API-TOKEN"
-        }
-      ],
-      "get": {
-        "tags": [
-          "authentication"
-        ],
-        "operationId": "routeWithId",
-        "description": "Autenticación de usuario",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "examples": {
-              "application/json": "{ foo: 1 }"
-            }
-          }
-        }
-      }
-    },
-
-    "/v1/authentication/result": {
-      "parameters": [
-        {
-          "name": "token",
-          "required": true,
-          "in": "query",
-          "type": "string",
-          "description": "token"
-        }
-      ],
-      "get": {
-        "tags": [
-          "authentication"
-        ],
-        "operationId": "routeWithId",
-        "description": "Página de resultado de la autenticación",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "examples": {
-              "application/json": "{ foo: 1 }"
-            }
-          }
-        }
-      }
-    },
-
-    "/v1/authentication/getjwt": {
-      "parameters": [
-        {
-          "name": "token",
-          "required": true,
-          "in": "body",
-          "type": "string",
-          "description": "token"
-        }
-      ],
-      "get": {
-        "tags": [
-          "authentication"
-        ],
-        "operationId": "routeWithId",
-        "description": "Obtiene el JWT del usuario",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "examples": {
-              "application/json": "{ foo: 1 }"
-            }
-          }
-        }
-      }
-    },
-    "/v1/authentication/savetoken": {
-      "parameters": [
-        {
-          "name": "jwt",
-          "required": true,
-          "in": "body",
-          "type": "string",
-          "description": "jwt"
-        }
-      ],
-      "post": {
-        "tags": [
-          "authentication"
-        ],
-        "operationId": "routeWithId",
-        "description": "Guarda el jwt en la base de datos asociado al usuario",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "examples": {
-              "application/json": "{ foo: 1 }"
-            }
-          }
-        }
-      }
-    },
-    "/v1/classroom/getin": {
-      "parameters": [
-        {
-          "name": "jwt",
-          "required": true,
-          "in": "body",
-          "type": "string",
-          "description": "jwt"
-        }
-      ],
-      "post": {
-        "tags": [
-          "classroom"
-        ],
-        "operationId": "routeWithId",
-        "description": "Guarda el jwt en la base de datos asociado al usuario",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "examples": {
-              "application/json": "{ foo: 1 }"
-            }
-          }
-        }
-      }
-    },
-    "/v1/classroom/getout": {
-      "parameters": [
-        {
-          "name": "jwt",
-          "required": true,
-          "in": "body",
-          "type": "string",
-          "description": "jwt"
-        }
-      ],
-      "post": {
-        "tags": [
-          "classroom"
-        ],
-        "operationId": "routeWithId",
-        "description": "Guarda el jwt en la base de datos asociado al usuario",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "examples": {
-              "application/json": "{ foo: 1 }"
-            }
-          }
-        }
-      }
-    },
-    "/v1/classroom/attendances": {
-      "parameters": [
-        {
-          "name": "jwt",
-          "required": true,
-          "in": "body",
-          "type": "string",
-          "description": "jwt"
-        }
-      ],
-      "get": {
-        "tags": [
-          "classroom"
-        ],
-        "operationId": "routeWithId",
-        "description": "Guarda el jwt en la base de datos asociado al usuario",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "examples": {
-              "application/json": "{ foo: 1 }"
-            }
-          }
-        }
-      }
-    }
-  }
 }
