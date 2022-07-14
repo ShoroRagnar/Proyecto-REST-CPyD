@@ -5,6 +5,8 @@
         "version": "1.0.0",
         "title": "API-REST CPD"
     },
+    "host": "localhost:3000",
+    "basePath": "/v1",
     "tags": [
         {
             "name": "authentication-rest",
@@ -13,6 +15,10 @@
         {
             "name": "classroom-rest",
             "description": "Registro de entrada y salida de estudiantes"
+        },
+        {
+            "name": "migration-rest",
+            "description": "Crea las tablas y las pobla con un pequeño seeder"
         }
     ],
     "schemes": [
@@ -35,6 +41,18 @@
                     "application/json"
                 ],
                 "parameters": [ 
+                    {
+                        "name": "successUrl",
+                        "in": "body",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "failedUrl",
+                        "in": "body",
+                        "required": true,
+                        "type": "string"
+                    }
                 ],
                 "responses": {
                     "200": {
@@ -43,6 +61,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/definitions/Autenticacion"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/definitions/Error"
                                 }
                             }
                         }
@@ -88,8 +116,110 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/definitions/Error"
+                                }
+                            }
+                        }
                     }
-                }
+                }  
+            }
+        },
+        "/v1/authentication/getjwt": {
+            "get": {
+                "tags": [
+                    "authentication-rest"
+                ],
+                "summary": "JWT generado por la autenticación",
+                "description": "Obtiene el JWT generado de la autenticación del estudiante con cuenta UTEM",
+                "operationId": "getjwt",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "body",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/JWT"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/definitions/Error"
+                                }
+                            }
+                        }
+                    }
+                }  
+            }
+        },
+        "v1/authentication/savetoken": {
+            "post": {
+                "tags": [
+                    "authentication-rest"
+                ],
+                "summary": "Guarda el JWT en la base de datos",
+                "description": "Guarda el JWT generado de la autenticación del estudiante con cuenta UTEM",
+                "operationId": "savetoken",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "body",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Savetoken"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/definitions/Error"
+                                }
+                            }
+                        }
+                    }
+                }  
             }
         },
         "/v1/classroom/getin": {
@@ -131,6 +261,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/definitions/Entrada"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/definitions/Error"
                                 }
                             }
                         }
@@ -180,6 +320,16 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/definitions/Error"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -213,6 +363,51 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/definitions/Registros"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/definitions/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/init": {
+            "get": {
+                "tags": [
+                    "migration-rest"
+                ],
+                "summary": "Creación de tablas",
+                "description": "Creación y poblamiento de tablas de base de datos",
+                "operationId": "attendances",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Migracion"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/definitions/Error"
                                 }
                             }
                         }
@@ -251,6 +446,74 @@
             },
             "xml": {
                 "name": "Autenticacion"
+            }
+        },
+        "Error":{
+            "type": "object",
+            "properties": {
+                "ok": {
+                    "description": "false",
+                    "type": "boolean",
+                    "example": "false"
+                },
+                "message": {
+                    "description": "Error desconocido",
+                    "type": "string",
+                    "example": "Error desconocido"
+                },
+                "created": {
+                    "description": "Fecha emisión",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2022-07-13T21:19:58.212Z"
+                }
+            }
+        },
+        "JWT": {
+            "type": "object",
+            "properties": {
+                "jwt": {
+                    "description": "JSON web token",
+                    "type": "string",
+                    "example": "string"
+                },
+                "created": {
+                    "description": "Fecha emisión",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2022-07-13T21:19:58.212Z"
+                }
+            }
+        },
+        "Savetoken":{
+            "type": "object",
+            "properties": {
+                "ok": {
+                    "description": "true",
+                    "type": "boolean",
+                    "example": "true"
+                }
+            }
+        },
+        "Migracion": {
+            "type": "object",
+            "properties": {
+                "ok": {
+                    "description": "true",
+                    "type": "boolean",
+                    "example": "true"
+                },
+                "message": {
+                    "description": "Base de datos inicializada",
+                    "type": "string",
+                    "example": "Base de datos inicializada"
+                },
+                "created": {
+                    "description": "Fecha emisión",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2022-07-13T21:19:58.212Z"
+                }
             }
         },
         "Resultado": {

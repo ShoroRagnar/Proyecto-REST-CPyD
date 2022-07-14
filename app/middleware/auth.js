@@ -39,7 +39,7 @@ module.exports = async (req, res, next) => {
     }catch(error){
         logger.info('Acceso denegado');
         return res.status(400).json({
-            message: "Acceso denegado" + error.stack
+            message: "Acceso denegado"
         });
     }
 };
